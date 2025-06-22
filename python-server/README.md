@@ -24,6 +24,12 @@ The server listens on `0.0.0.0:6277` by default. Override the host and port
 using the `HOST` and `PORT` environment variables. Once running, open
 `http://localhost:6277/` in your browser to access the inspector UI.
 
+By default the server requires an authentication token. A random token is
+printed at startup and must be included as a `Bearer` token in the
+`Authorization` header for all API requests. You can provide your own token via
+`MCP_PROXY_TOKEN` or disable authentication entirely with
+`DANGEROUSLY_OMIT_AUTH=true`.
+
 ## Endpoints
 
 - `/` – Serves the inspector client files.

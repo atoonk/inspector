@@ -294,6 +294,11 @@ The default host is `0.0.0.0` on port `6277`. Use the `HOST` and `PORT`
 environment variables to override these values. Once running, open
 `http://localhost:6277/` to view the inspector.
 
+The Python server requires a session token by default. A random token is printed
+at startup and must be included as a `Bearer` token in the `Authorization`
+header. Use `MCP_PROXY_TOKEN` to supply your own token or set
+`DANGEROUSLY_OMIT_AUTH=true` to disable authentication.
+
 ### CLI Mode
 
 CLI mode enables programmatic interaction with MCP servers from the command line, ideal for scripting, automation, and integration with coding assistants. This creates an efficient feedback loop for MCP server development.
