@@ -33,7 +33,9 @@ class Handler(SimpleHTTPRequestHandler):
     def check_auth(self):
         if auth_disabled:
             return True
-        header = self.headers.get("Authorization", "")
+        header = self.headers.get("X-MCP-Proxy-Auth") or self.headers.get(
+            "Authorization"
+        )
         if header == f"Bearer {session_token}":
             return True
         self.send_response(401)
@@ -77,7 +79,7 @@ class Handler(SimpleHTTPRequestHandler):
                 try:
                     headers = {'Accept': 'text/event-stream'}
                     auth_header = self.headers.get('Authorization')
-                    if auth_header:
+                    if auth_header and auth_header != f"Bearer {session_token}":
                         headers['Authorization'] = auth_header
                     custom = self.headers.get('x-custom-auth-header')
                     if custom and self.headers.get(custom):

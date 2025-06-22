@@ -31,12 +31,13 @@ startup:
 ```
 🔑 Session token: <token>
 🔗 Open inspector with token pre-filled:
-   http://localhost:6277/?MCP_PROXY_AUTH_TOKEN=<token>
+  http://localhost:6277/?MCP_PROXY_AUTH_TOKEN=<token>
 ```
 
-Visit the printed URL to connect with the token automatically. You can provide
-your own token via `MCP_PROXY_TOKEN` or disable authentication entirely with
-`DANGEROUSLY_OMIT_AUTH=true`.
+Visit the printed URL to connect with the token automatically. Requests to the
+Python server must include this token in the `X-MCP-Proxy-Auth` header as
+`Bearer <token>`. You can provide your own token via `MCP_PROXY_TOKEN` or
+disable authentication entirely with `DANGEROUSLY_OMIT_AUTH=true`.
 
 ## Endpoints
 

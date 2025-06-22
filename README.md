@@ -131,7 +131,7 @@ You can paste the Server Entry into your existing `mcp.json` file under your cho
 
 ### Authentication
 
-The inspector supports bearer token authentication for SSE connections. Enter your token in the UI when connecting to an MCP server, and it will be sent in the Authorization header. You can override the header name using the input field in the sidebar.
+The inspector supports bearer token authentication for SSE connections. Enter your token in the UI when connecting to an MCP server, and it will be sent in the `Authorization` header. You can override the header name using the input field in the sidebar.
 
 ### Security Considerations
 
@@ -148,7 +148,7 @@ The MCP Inspector proxy server requires authentication by default. When starting
    http://localhost:6274/?MCP_PROXY_AUTH_TOKEN=3a1c267fad21f7150b7d624c160b7f09b0b8c4f623c7107bbf13378f051538d4
 ```
 
-This token must be included as a Bearer token in the Authorization header for all requests to the server. The inspector will automatically open your browser with the token pre-filled in the URL.
+This token must be sent in the `X-MCP-Proxy-Auth` header as `Bearer <token>` for all requests to the server. The inspector will automatically open your browser with the token pre-filled in the URL.
 
 **Automatic browser opening** - The inspector now automatically opens your browser with the token pre-filled in the URL when authentication is enabled.
 
