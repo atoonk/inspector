@@ -30,7 +30,9 @@ using the `HOST` and `PORT` environment variables. Once running, open
 - `/health` – Simple health check returning `{"status": "ok"}`.
 - `/config` – Returns default configuration based on the `MCP_ENV_VARS`,
   `MCP_PROXY_COMMAND`, and `MCP_PROXY_ARGS` environment variables.
-- `/sse` – Simple Server-Sent Events endpoint that clients can subscribe to.
+- `/sse` – Proxies SSE connections to the URL specified by the `url` query
+  parameter. If no `url` is provided, acts as a simple echo server for
+  messages posted to `/message`.
 - `/message` – Accepts posted messages and broadcasts them to connected SSE
   clients.
 

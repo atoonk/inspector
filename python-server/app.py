@@ -2,6 +2,8 @@ import json
 import os
 import time
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
+from urllib.parse import urlparse, parse_qs
+from urllib.request import Request, urlopen
 
 clients = set()
 
@@ -43,21 +45,45 @@ class Handler(SimpleHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(json.dumps(config).encode())
             return
-        if self.path == '/sse':
-            self.send_response(200)
-            self.send_header('Content-Type', 'text/event-stream')
-            self.send_header('Cache-Control', 'no-cache')
-            self.send_header('Connection', 'keep-alive')
-            self.end_headers()
-            clients.add(self.wfile)
-            try:
-                while True:
-                    time.sleep(1)
-            except BrokenPipeError:
-                pass
-            finally:
-                clients.discard(self.wfile)
-            return
+        parsed = urlparse(self.path)
+        if parsed.path == '/sse':
+            query = parse_qs(parsed.query)
+            remote_url = query.get('url', [None])[0]
+            if remote_url:
+                try:
+                    req = Request(remote_url, headers={'Accept': 'text/event-stream'})
+                    with urlopen(req) as resp:
+                        self.send_response(200)
+                        self.send_header('Content-Type', 'text/event-stream')
+                        self.send_header('Cache-Control', 'no-cache')
+                        self.send_header('Connection', 'keep-alive')
+                        self.end_headers()
+                        for line in resp:
+                            self.wfile.write(line)
+                            self.wfile.flush()
+                    return
+                except Exception as e:
+                    self.send_response(500)
+                    self.send_header('Content-Type', 'application/json')
+                    self.end_headers()
+                    self.wfile.write(json.dumps({'error': str(e)}).encode())
+                    return
+            else:
+                # local SSE echo server
+                self.send_response(200)
+                self.send_header('Content-Type', 'text/event-stream')
+                self.send_header('Cache-Control', 'no-cache')
+                self.send_header('Connection', 'keep-alive')
+                self.end_headers()
+                clients.add(self.wfile)
+                try:
+                    while True:
+                        time.sleep(1)
+                except BrokenPipeError:
+                    pass
+                finally:
+                    clients.discard(self.wfile)
+                return
 
         if self.path in ('', '/', '/index.html'):
             self.path = '/index.html'

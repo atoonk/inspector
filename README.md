@@ -274,7 +274,8 @@ npm start
 
 For environments where Node.js is undesirable, a minimal Python server is
 provided in `python-server`. It can serve the built web UI and exposes a subset
-of the proxy API.
+of the proxy API. The `/sse` endpoint can proxy Server-Sent Events when given a
+`url` query parameter.
 
 First build the client:
 
