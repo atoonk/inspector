@@ -270,6 +270,19 @@ npm run build
 npm start
 ```
 
+### Python Prototype
+
+For environments where Node.js is undesirable, a minimal Python server is
+provided in `python-server`. It serves the existing web UI and exposes a subset
+of the proxy API.
+
+```bash
+python python-server/app.py
+```
+
+The default host is `0.0.0.0` on port `6277`. Use the `HOST` and `PORT`
+environment variables to override these values.
+
 ### CLI Mode
 
 CLI mode enables programmatic interaction with MCP servers from the command line, ideal for scripting, automation, and integration with coding assistants. This creates an efficient feedback loop for MCP server development.
