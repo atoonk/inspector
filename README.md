@@ -273,8 +273,17 @@ npm start
 ### Python Prototype
 
 For environments where Node.js is undesirable, a minimal Python server is
-provided in `python-server`. It serves the existing web UI and exposes a subset
+provided in `python-server`. It can serve the built web UI and exposes a subset
 of the proxy API.
+
+First build the client:
+
+```bash
+npm install              # once
+npm run build-client
+```
+
+Then run the Python server:
 
 ```bash
 python python-server/app.py

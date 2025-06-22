@@ -6,11 +6,21 @@ serve the existing client UI.
 
 ## Running
 
+Before starting the Python server you must build the inspector client once with
+Node.js:
+
+```bash
+npm install                # if you haven't already
+npm run build-client       # produces client/dist
+```
+
+Once built, run the Python server:
+
 ```bash
 python app.py
 ```
 
-The server will listen on `0.0.0.0:6277` by default. Override the host and port
+The server listens on `0.0.0.0:6277` by default. Override the host and port
 using the `HOST` and `PORT` environment variables.
 
 ## Endpoints

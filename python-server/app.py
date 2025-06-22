@@ -7,7 +7,16 @@ clients = set()
 
 class Handler(SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
-        static_dir = os.path.join(os.path.dirname(__file__), '..', 'client')
+        repo_root = os.path.join(os.path.dirname(__file__), "..")
+        dist_dir = os.path.join(repo_root, "client", "dist")
+        if os.path.exists(dist_dir):
+            static_dir = dist_dir
+        else:
+            static_dir = os.path.join(repo_root, "client")
+            print(
+                "\u26A0\ufe0f Built client not found. Serving source files from client/. "
+                "Run 'npm run build-client' for a production build."
+            )
         super().__init__(*args, directory=static_dir, **kwargs)
 
     def do_GET(self):
