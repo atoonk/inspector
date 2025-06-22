@@ -17,6 +17,7 @@ class Handler(SimpleHTTPRequestHandler):
                 "\u26A0\ufe0f Built client not found. Serving source files from client/. "
                 "Run 'npm run build-client' for a production build."
             )
+        print(f"Serving client files from {static_dir}")
         super().__init__(*args, directory=static_dir, **kwargs)
 
     def do_GET(self):
@@ -57,6 +58,14 @@ class Handler(SimpleHTTPRequestHandler):
             finally:
                 clients.discard(self.wfile)
             return
+
+        if self.path in ('', '/', '/index.html'):
+            self.path = '/index.html'
+            return super().do_GET()
+
+        file_path = self.translate_path(self.path)
+        if not os.path.exists(file_path):
+            self.path = '/index.html'
         return super().do_GET()
 
     def do_POST(self):

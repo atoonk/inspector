@@ -290,7 +290,8 @@ python python-server/app.py
 ```
 
 The default host is `0.0.0.0` on port `6277`. Use the `HOST` and `PORT`
-environment variables to override these values.
+environment variables to override these values. Once running, open
+`http://localhost:6277/` to view the inspector.
 
 ### CLI Mode
 

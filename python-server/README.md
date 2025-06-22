@@ -21,7 +21,8 @@ python app.py
 ```
 
 The server listens on `0.0.0.0:6277` by default. Override the host and port
-using the `HOST` and `PORT` environment variables.
+using the `HOST` and `PORT` environment variables. Once running, open
+`http://localhost:6277/` in your browser to access the inspector UI.
 
 ## Endpoints
 
