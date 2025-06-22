@@ -13,20 +13,22 @@ auth_disabled = bool(os.environ.get("DANGEROUSLY_OMIT_AUTH"))
 
 clients = set()
 
+repo_root = os.path.join(os.path.dirname(__file__), "..")
+dist_dir = os.path.join(repo_root, "client", "dist")
+if os.path.exists(dist_dir):
+    STATIC_DIR = dist_dir
+else:
+    STATIC_DIR = os.path.join(repo_root, "client")
+    print(
+        "\u26A0\ufe0f Built client not found. Serving source files from client/. "
+        "Run 'npm run build-client' for a production build."
+    )
+print(f"Serving client files from {STATIC_DIR}")
+
+
 class Handler(SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
-        repo_root = os.path.join(os.path.dirname(__file__), "..")
-        dist_dir = os.path.join(repo_root, "client", "dist")
-        if os.path.exists(dist_dir):
-            static_dir = dist_dir
-        else:
-            static_dir = os.path.join(repo_root, "client")
-            print(
-                "\u26A0\ufe0f Built client not found. Serving source files from client/. "
-                "Run 'npm run build-client' for a production build."
-            )
-        print(f"Serving client files from {static_dir}")
-        super().__init__(*args, directory=static_dir, **kwargs)
+        super().__init__(*args, directory=STATIC_DIR, **kwargs)
 
     def check_auth(self):
         if auth_disabled:
@@ -155,9 +157,8 @@ def run(host='0.0.0.0', port=6277):
     print(f"⚙️ Python proxy server listening on {host}:{port}")
     if not auth_disabled:
         print(f"🔑 Session token: {session_token}")
-        client_port = os.environ.get('CLIENT_PORT', '6274')
         print(
-            f"\n🔗 Open inspector with token pre-filled:\n   http://localhost:{client_port}/?MCP_PROXY_AUTH_TOKEN={session_token}\n"
+            f"\n🔗 Open inspector with token pre-filled:\n   http://localhost:{port}/?MCP_PROXY_AUTH_TOKEN={session_token}\n"
         )
     else:
         print("⚠️  WARNING: Authentication is disabled.")

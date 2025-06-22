@@ -24,10 +24,18 @@ The server listens on `0.0.0.0:6277` by default. Override the host and port
 using the `HOST` and `PORT` environment variables. Once running, open
 `http://localhost:6277/` in your browser to access the inspector UI.
 
-By default the server requires an authentication token. A random token is
-printed at startup and must be included as a `Bearer` token in the
-`Authorization` header for all API requests. You can provide your own token via
-`MCP_PROXY_TOKEN` or disable authentication entirely with
+The Python server uses a single port for both the UI and API. When
+authentication is enabled, a session token and a pre-filled URL are printed at
+startup:
+
+```
+🔑 Session token: <token>
+🔗 Open inspector with token pre-filled:
+   http://localhost:6277/?MCP_PROXY_AUTH_TOKEN=<token>
+```
+
+Visit the printed URL to connect with the token automatically. You can provide
+your own token via `MCP_PROXY_TOKEN` or disable authentication entirely with
 `DANGEROUSLY_OMIT_AUTH=true`.
 
 ## Endpoints
